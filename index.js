@@ -4,8 +4,8 @@ const websocketHelper = require("./helpers/websocketHelper");
 const config = require("./config/appConfig");
 
 
-// nodeRouter.externalApiRouter.raydium.getHistory();
-// nodeRouter.externalApiRouter.raydium.getTVСhartData();
+// nodeRouter.externalApiRouter.raydium.getHistory(); //write to DB
+// nodeRouter.externalApiRouter.raydium.getTVСhartData(); //write to DB
 
 websocketHelper.websocketServer();
 
