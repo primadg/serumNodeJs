@@ -20,9 +20,9 @@ function makeRequest(url="", method="GET", postData={}, options={}) {
         }
         request(options, function (error, response) {
             if (!error && response.statusCode == 200) {
-                resolve(response.body);
+              resolve(response.body);
             } else {
-                reject(error);
+              reject({ status: response.statusCode, error });
             }
         });
     });
