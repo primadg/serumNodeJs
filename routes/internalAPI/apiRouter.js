@@ -1,6 +1,8 @@
 //Router for api ajax, websocket requests from Dex and localhost
-const TW_chart = require("./TW_chart");
+const TV_chart = require("./TV_chart");
+const Orderbook = require("./Orderbook");
 
 module.exports = {
-    TW_chart
+  Orderbook,
+  TV_chart,
 };

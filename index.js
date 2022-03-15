@@ -7,15 +7,15 @@ const { getHistory, getTVСhartData } = require("./routes/externalAPI/raydium");
 const USE_MARKETS = require("./config/markets");
 
 // setInterval(async () => {
-  for (let i = 0; i < USE_MARKETS.length; i++) {
-    const { address, programId, name } = USE_MARKETS[i];
+  // for (let i = 0; i < USE_MARKETS.length; i++) {
+  //   const { address, programId, name } = USE_MARKETS[i];
   // await new Promise((resolve) => {
     // setTimeout(async () => {
   // getSerumData(address, programId, name);
       // resolve();
     // }, 500);
   // });
-  }
+  // }
   // getHistory();
 // }, 2000);
 

@@ -32,9 +32,6 @@ async function getTVСhartData(
   } catch (error) {
     console.log(error);
   }
-  // console.log("\n\r")
-  //   console.log(response);
-  // console.log(to_time.toString())
 }
 
 module.exports = {

@@ -1,31 +1,31 @@
 //Helper for socket io modules
 const config = require("../config/appConfig");
-const RequestHandler = require("../routes/internalAPI/TW_chart");
+const RequestHandler = require("../routes/internalAPI/TV_chart");
+const StreamHandler = require("../routes/internalAPI/Orderbook");
 
 const rSocketPort = config.rSocketPort;
 const rSocketHost = config.rSocketHost;
 const transportOpts = {
-    host: rSocketHost,
-    port: rSocketPort,
+  host: rSocketHost,
+  port: rSocketPort,
 };
 
-
 const getRequestHandler = (requestingRSocket, setupPayload) => {
-//   function handleFireAndForget() {
-//     return RequestHandler.handleFireAndForget();
-//   }
+  //   function handleFireAndForget() {
+  //     return RequestHandler.handleFireAndForget();
+  //   }
   function handleRequestResponse(payload) {
     return RequestHandler.handleRequestResponse(payload);
   }
   function handleRequestStream(payload) {
-    return RequestHandler.handleRequestStream(payload);
+    return StreamHandler.handleRequestStream(payload);
   }
-//   function handleRequestChannel(payload) {
-//     return RequestHandler.handleRequestChannel();
-//   }
-//   function handleMetadataPush(payload) {
-//     return RequestHandler.handleMetadataPush();
-//   }
+  //   function handleRequestChannel(payload) {
+  //     return RequestHandler.handleRequestChannel();
+  //   }
+  //   function handleMetadataPush(payload) {
+  //     return RequestHandler.handleMetadataPush();
+  //   }
   return {
     // fireAndForget: handleFireAndForget,
     requestResponse: handleRequestResponse,
