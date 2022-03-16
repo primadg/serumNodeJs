@@ -2,7 +2,7 @@ const { Connection, PublicKey } = require("@solana/web3.js");
 const { Market } = require("@project-serum/serum");
 const config = require("../../config/appConfig");
 const store = require("../../redux/store");
-const setChartData = require("../../redux/TV_charts/action");
+const setOrderbookData = require("../../redux/Orderbook/action");
 const API_URL = config.solanaQuickNodeURL;
 
 async function getSerumData(
@@ -21,7 +21,7 @@ async function getSerumData(
 
     const bidsL2 = bids.getL2(20);
     const asksL2 = asks.getL2(20);
-    store.dispatch(setChartData({ bidsL2, asksL2 }, name));
+    store.dispatch(setOrderbookData({ bidsL2, asksL2 }, name));
   }, 2000);
 }
 

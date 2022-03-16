@@ -1,3 +1,5 @@
 const CHART_DATA = "CHART_DATA";
+const ORDERBOOK_DATA = "ORDERBOOK_DATA";
+const HISTORY_DATA = "HISTORY_DATA";
 
-module.exports = { CHART_DATA };
+module.exports = { CHART_DATA, ORDERBOOK_DATA, HISTORY_DATA };

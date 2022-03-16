@@ -1,7 +1,7 @@
 //Helper for socket io modules
 const config = require("../config/appConfig");
-const RequestHandler = require("../routes/internalAPI/TV_chart");
-const StreamHandler = require("../routes/internalAPI/Orderbook");
+const RequestHandler = require("../routes/internalAPI/requestResponse");
+const StreamHandler = require("../routes/internalAPI/requestStream");
 
 const rSocketPort = config.rSocketPort;
 const rSocketHost = config.rSocketHost;

@@ -7,9 +7,16 @@ const setChartData = require("../../redux/TV_charts/action");
 const API_URL = config.raydiumAPIURL;
 const last_TV_chart_dataURL = config.raydiumTWURL;
 
-async function getHistory(market = "C1EuT9VokAKLiW7i2ASnZUvxDoKuKkCpDDeNxAptuNe4") {
+async function getHistory(market = "C1EuT9VokAKLiW7i2ASnZUvxDoKuKkCpDDeNxAptuNe4", name = "BTC/USDT") {
   let url = API_URL + market;
-  let response = await makeRequest.makeRequest(url);
+  let response;
+  try {
+    response = await makeRequest.makeRequest(url);
+    store.dispatch(setChartData(response, name));
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
   console.log(response);
 }
 
@@ -28,7 +35,8 @@ async function getTVСhartData(
   let response;
   try {
     response = await makeRequest.makeRequest(url);
-    store.dispatch(setChartData(response, name));
+    store.dispatch(setHistoryData(response, name));
+    return response;
   } catch (error) {
     console.log(error);
   }
