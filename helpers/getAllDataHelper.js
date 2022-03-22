@@ -6,13 +6,13 @@ const { getSerumData, getConnection } = require("../routes/externalAPI/serum");
 
 const connection = getConnection();
 
-const updateAllHistory = async () => {
+const updateAllHistory = async (debug) => {
   return new Promise(async (resolve) => {
     for (let i = 0; i < USE_MARKETS.length; i++) {
       const { address, programId, name } = USE_MARKETS[i];
       await new Promise((resolve) => {
         setTimeout(async () => {
-          getHistory(address);
+          getHistory(address, name, debug);
           resolve();
         }, 2000);
       });
@@ -21,13 +21,13 @@ const updateAllHistory = async () => {
   });
 };
 
-const getChartsForResolution = async (resolution) => {
+const getChartsForResolution = async (resolution, debug) => {
   return new Promise(async (resolve) => {
     for (let i = 0; i < USE_MARKETS.length; i++) {
       const { address, programId, name } = USE_MARKETS[i];
       await new Promise(async (resolve) => {
         setTimeout(async () => {
-          await getTVСhartData(address, name, resolution);
+          await getTVСhartData(address, name, resolution, debug);
           resolve();
         }, 2000);
       });
@@ -36,7 +36,7 @@ const getChartsForResolution = async (resolution) => {
   });
 };
 
-const getAllHistory = async () => {
+const getAllHistory = async (debug) => {
   let isResponse = false;
   setInterval(async () => {
     if (isResponse) {
@@ -45,7 +45,7 @@ const getAllHistory = async () => {
           if (!isResponse) {
             clearInterval(interval);
             isResponse = true;
-            await updateAllHistory();
+            await updateAllHistory(debug);
             isResponse = false;
             resolve();
           }
@@ -53,18 +53,18 @@ const getAllHistory = async () => {
       });
     } else {
       isResponse = true;
-      await updateAllHistory();
+      await updateAllHistory(debug);
       isResponse = false;
     }
   }, 100000);
 };
 
-const getAllCharts = async () => {
+const getAllCharts = async (debug) => {
   const resolutions = ["5min", "15min", "1h", "2h", "4h", "1d"];
   let isResponse = false;
   for (let i = 0; i < resolutions.length; i++) {
     isResponse = true;
-    await getChartsForResolution(resolutions[i]);
+    await getChartsForResolution(resolutions[i], debug);
     isResponse = false;
   }
   setInterval(async () => {
@@ -74,10 +74,10 @@ const getAllCharts = async () => {
           if (!isResponse) {
             clearInterval(interval);
             isResponse = true;
-            await getChartsForResolution(resolutions[2]);
-            await getChartsForResolution(resolutions[3]);
-            await getChartsForResolution(resolutions[4]);
-            await getChartsForResolution(resolutions[5]);
+            await getChartsForResolution(resolutions[2], debug);
+            await getChartsForResolution(resolutions[3], debug);
+            await getChartsForResolution(resolutions[4], debug);
+            await getChartsForResolution(resolutions[5], debug);
             isResponse = false;
             resolve();
           }
@@ -85,13 +85,13 @@ const getAllCharts = async () => {
       });
     } else {
       isResponse = true;
-      await getChartsForResolution(resolutions[2]);
-      await getChartsForResolution(resolutions[3]);
-      await getChartsForResolution(resolutions[4]);
-      await getChartsForResolution(resolutions[5]);
+      await getChartsForResolution(resolutions[2], debug);
+      await getChartsForResolution(resolutions[3], debug);
+      await getChartsForResolution(resolutions[4], debug);
+      await getChartsForResolution(resolutions[5], debug);
       isResponse = false;
     }
-  }, 60 * 60000);
+  }, 30 * 60000);
   setInterval(async () => {
     if (isResponse) {
       await new Promise(async (resolve) => {
@@ -99,7 +99,7 @@ const getAllCharts = async () => {
           if (!isResponse) {
             clearInterval(interval);
             isResponse = true;
-            await getChartsForResolution(resolutions[1]);
+            await getChartsForResolution(resolutions[1], debug);
             isResponse = false;
             resolve();
           }
@@ -107,7 +107,7 @@ const getAllCharts = async () => {
       });
     } else {
       isResponse = true;
-      await getChartsForResolution(resolutions[1]);
+      await getChartsForResolution(resolutions[1], debug);
       isResponse = false;
     }
   }, 15 * 60000);
@@ -118,7 +118,7 @@ const getAllCharts = async () => {
           if (!isResponse) {
             clearInterval(interval);
             isResponse = true;
-            await getChartsForResolution(resolutions[0]);
+            await getChartsForResolution(resolutions[0], debug);
             isResponse = false;
             resolve();
           }
@@ -126,18 +126,18 @@ const getAllCharts = async () => {
       });
     } else {
       isResponse = true;
-      await getChartsForResolution(resolutions[0]);
+      await getChartsForResolution(resolutions[0], debug);
       isResponse = false;
     }
   }, 5 * 60000);
 };
 
-const getAllOrderbook = async () => {
+const getAllOrderbook = async (debug) => {
   for (let i = 0; i < USE_MARKETS.length; i++) {
     const { address, programId, name } = USE_MARKETS[i];
     await new Promise((resolve) => {
       setTimeout(async () => {
-        await getSerumData(connection, address, programId, name);
+        await getSerumData(connection, address, programId, name, debug);
         resolve();
       }, 1000);
     });

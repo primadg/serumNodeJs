@@ -1,4 +1,4 @@
-//Helper for socket io modules
+//Helper for rsocket modules
 const config = require("../config/appConfig");
 const RequestHandler = require("../routes/internalAPI/requestResponse");
 const StreamHandler = require("../routes/internalAPI/requestStream");
@@ -10,28 +10,16 @@ const transportOpts = {
   port: rSocketPort,
 };
 
-const getRequestHandler = (requestingRSocket, setupPayload) => {
-  //   function handleFireAndForget() {
-  //     return RequestHandler.handleFireAndForget();
-  //   }
+const getRequestHandler = () => {
   function handleRequestResponse(payload) {
     return RequestHandler.handleRequestResponse(payload);
   }
   function handleRequestStream(payload) {
     return StreamHandler.handleRequestStream(payload);
   }
-  //   function handleRequestChannel(payload) {
-  //     return RequestHandler.handleRequestChannel();
-  //   }
-  //   function handleMetadataPush(payload) {
-  //     return RequestHandler.handleMetadataPush();
-  //   }
   return {
-    // fireAndForget: handleFireAndForget,
     requestResponse: handleRequestResponse,
     requestStream: handleRequestStream,
-    // requestChannel: handleRequestChannel,
-    // metadataPush: handleMetadataPush,
   };
 };
 

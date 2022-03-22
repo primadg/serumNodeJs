@@ -7,19 +7,19 @@ const setHistoryData = require("../../redux/History/action");
 const API_URL = config.raydiumAPIURL;
 const last_TV_chart_dataURL = config.raydiumTWURL;
 
-async function getHistory(market = "C1EuT9VokAKLiW7i2ASnZUvxDoKuKkCpDDeNxAptuNe4", name = "BTC/USDT") {
+async function getHistory(market = "C1EuT9VokAKLiW7i2ASnZUvxDoKuKkCpDDeNxAptuNe4", name = "BTC/USDT", debug) {
   let url = API_URL + market;
   let response;
   try {
     response = await makeRequest.makeRequest(url);
     store.dispatch(setHistoryData(response, name));
-    console.log("History success: ", JSON.parse(response)?.success);
+    if (debug) console.log("History success: ", JSON.parse(response)?.success);
   } catch (error) {
     console.log(error);
   }
 }
 
-async function getTVСhartData(market = "C1EuT9VokAKLiW7i2ASnZUvxDoKuKkCpDDeNxAptuNe4", name = "BTC/USDT", resolution = "1h") {
+async function getTVСhartData(market = "C1EuT9VokAKLiW7i2ASnZUvxDoKuKkCpDDeNxAptuNe4", name = "BTC/USDT", resolution = "1h", debug) {
   const to_time = Math.floor(Date.now() / 1000);
   let from_time;
   if (resolution === "5min") {
@@ -66,22 +66,9 @@ async function getTVСhartData(market = "C1EuT9VokAKLiW7i2ASnZUvxDoKuKkCpDDeNxAp
       });
     }
     const currentData = store.getState().chartDataReducer[name];
-    // const newData = {};
-    // let maxTime = 0;
-    // let dataToSave;
-    // if (currentData && currentData[resolution] && Object.keys(currentData[resolution]).length > 0) {
-    //   for (let time in currentData[resolution]) {
-    //     if (parseInt(time.t) > maxTime) maxTime = time.t;
-    //   }
-    //   for (let time in incomeData[resolution]) {
-    //     if (parseInt(time.t) >= parseInt(maxTime)) newData[resolution][time] = { ...incomeData[resolution][time] };
-    //   }
-    //   if (currentData[resolution][maxTime]) delete currentData[resolution][maxTime];
-    //   dataToSave = { ...currentData, ...newData };
-    // } else dataToSave = { ...incomeData };
     const dataToSave = { ...currentData, ...incomeData };
     store.dispatch(setChartData(dataToSave, name));
-    console.log("Chart success: ", parsedData.s);
+    if (debug) console.log("Chart success: ", parsedData.s);
   } catch (error) {
     console.log(error);
   }

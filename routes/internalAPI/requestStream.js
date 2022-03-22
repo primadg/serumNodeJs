@@ -6,16 +6,14 @@ function handleRequestStream(payload) {
   if (!name) return;
   let currentOrderbookData;
   let lastOrderbookData;
-  // const flowable = new Flowable((subscriber) => {
+  let interval;
   return new Flowable((subscriber) => {
     subscriber.onSubscribe({
       cancel: () => {
-        /* no-op */
-        // need write clearInterval
+        clearInterval(interval);
       },
       request: (n) => {
-        store.subscribe(() => {
-          //need rewrite to setInterval
+        interval = setInterval(() => {
           const { bidsL2 = [], asksL2 = [] } = store.getState().orderbookDataReducer[JSON.parse(payload.data)] || {};
           currentOrderbookData = {
             bids: bidsL2,
@@ -31,18 +29,10 @@ function handleRequestStream(payload) {
               asks: asksL2,
             };
           }
-        });
+        }, 2000);
       },
     });
   });
-
-  // flowable.subscribe({
-  // onComplete: () => console.log('done'),
-  // onError: (error) => console.error(error),
-  // onNext: (value) => console.log(value),
-  // onSubscribe: (sub) => sub.request(Infinity),
-  // });
-  // return flowable;
 }
 
 module.exports = {

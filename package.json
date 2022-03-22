@@ -25,7 +25,6 @@
     "request": "^2.88.2",
     "rsocket-core": "^0.0.27",
     "rsocket-flowable": "^0.0.27",
-    "rsocket-websocket-server": "^0.0.27",
-    "ws": "^8.5.0"
+    "rsocket-websocket-server": "^0.0.27"
   }
 }
