@@ -33,13 +33,20 @@ async function getSerumData(
   } else intervalTime = 10000;
 
   setInterval(async () => {
-    const bids = await market.loadBids(connection);
-    const asks = await market.loadAsks(connection);
-
-    const bidsL2 = bids.getL2(20);
-    const asksL2 = asks.getL2(20);
-    store.dispatch(setOrderbookData({ bidsL2, asksL2 }, name));
-    if (debug && name === "BTC/USDT") console.log("Orderbook success: ", !!bidsL2.length);
+    let bids;
+    let asks;
+    try {
+      bids = await market.loadBids(connection);
+      asks = await market.loadAsks(connection);
+    } catch(e) {
+      if (debug) console.log("Orderbook success: ", "response fail");
+    }
+    if(bids.length && asks.length) {
+      const bidsL2 = bids.getL2(20);
+      const asksL2 = asks.getL2(20);
+      store.dispatch(setOrderbookData({ bidsL2, asksL2 }, name));
+      if (debug && name === "BTC/USDT") console.log("Orderbook success: ", !!bidsL2.length);
+    } else if (debug) console.log("Orderbook success: ", "fail to load data");
   }, intervalTime);
 }
 

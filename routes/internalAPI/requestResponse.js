@@ -7,7 +7,7 @@ function handleRequestResponse(payload) {
     const { name, resolution, from, to } = params;
     if (name && resolution && from && to) {
       return new Single((subscriber) => {
-        const dataFromStore = store.getState().chartDataReducer[name][resolution];
+        const dataFromStore = store.getState().chartDataReducer?.[name]?.[resolution];
         let dataToSend = {
           c: [],
           h: [],
@@ -17,15 +17,25 @@ function handleRequestResponse(payload) {
           v: [],
           s: "ok",
         };
-        for (let time in dataFromStore) {
-          if (parseInt(from) < parseInt(time) && parseInt(to) > parseInt(time)) {
-            dataToSend.c.push(dataFromStore[time].c);
-            dataToSend.h.push(dataFromStore[time].h);
-            dataToSend.l.push(dataFromStore[time].l);
-            dataToSend.o.push(dataFromStore[time].o);
-            dataToSend.t.push(dataFromStore[time].t);
-            dataToSend.v.push(dataFromStore[time].v);
+        if (dataFromStore) {
+          for (let time in dataFromStore) {
+            if (parseInt(from) < parseInt(time) && parseInt(to) > parseInt(time)) {
+              dataToSend.c.push(dataFromStore[time].c);
+              dataToSend.h.push(dataFromStore[time].h);
+              dataToSend.l.push(dataFromStore[time].l);
+              dataToSend.o.push(dataFromStore[time].o);
+              dataToSend.t.push(dataFromStore[time].t);
+              dataToSend.v.push(dataFromStore[time].v);
+            }
           }
+        } else {
+          dataToSend.c.push(0);
+          dataToSend.h.push(0);
+          dataToSend.l.push(0);
+          dataToSend.o.push(0);
+          dataToSend.t.push(to);
+          dataToSend.v.push(0);
+          dataToSend.s = 'fail to load data'
         }
         subscriber.onSubscribe(() => {});
         subscriber.onComplete({
@@ -38,7 +48,8 @@ function handleRequestResponse(payload) {
     const { name } = params;
     if (name) {
       return new Single((subscriber) => {
-        const data = store.getState().historyDataReducer[name];
+        let data = store.getState().historyDataReducer[name];
+        if (!data) data = JSON.stringify({success: false, data: []})
         subscriber.onSubscribe(() => {});
         subscriber.onComplete({
           data,
