@@ -1,6 +1,5 @@
 //Helper for rsocket modules
 const config = require("../config/appConfig");
-const RequestHandler = require("../routes/internalAPI/requestResponse");
 const StreamHandler = require("../routes/internalAPI/requestStream");
 
 const rSocketPort = config.rSocketPort;
@@ -11,14 +10,10 @@ const transportOpts = {
 };
 
 const getRequestHandler = () => {
-  function handleRequestResponse(payload) {
-    return RequestHandler.handleRequestResponse(payload);
-  }
   function handleRequestStream(payload) {
     return StreamHandler.handleRequestStream(payload);
   }
   return {
-    requestResponse: handleRequestResponse,
     requestStream: handleRequestStream,
   };
 };

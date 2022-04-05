@@ -41,7 +41,7 @@ async function getSerumData(
     } catch(e) {
       if (debug) console.log("Orderbook success: ", "response fail");
     }
-    if(bids.length && asks.length) {
+    if(bids?.length && asks?.length) {
       const bidsL2 = bids.getL2(20);
       const asksL2 = asks.getL2(20);
       store.dispatch(setOrderbookData({ bidsL2, asksL2 }, name));

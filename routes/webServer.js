@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const port = 3500
 const bodyParser = require('body-parser');
-const ChartsController = require('../controllers/chartsController')
+const chartsController = require('./internalAPI/chartsController')
+const historyController = require('./internalAPI/historyController')
+const marketInfoController = require('./internalAPI/marketInfoController')
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
@@ -13,7 +15,9 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get('/chart', ChartsController.getChart)
+app.get('/chart', chartsController.getChart)
+app.get('/history', historyController.getHistory)
+app.get('/symbols', marketInfoController.getMarketInfo)
 
 app.listen(port, () => {
     console.log(`App listen on port ${port}`)

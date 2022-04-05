@@ -11,7 +11,7 @@ exports.ok = (values, res) => {
 
 exports.not_found = (res) => {
     res.status(404)
-    res.send("<h1>404 CHART DATA NOT FOUND</h1>")
+    res.send("<h1>404 DATA NOT FOUND</h1>")
     res.end()
 }
 
