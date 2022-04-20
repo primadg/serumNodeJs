@@ -8,11 +8,11 @@ const getPairStatsData = (req, res) => {
       let dataToSend = {};
       const data = store.getState().pairStatsDataReducer;
       if (!data) {
-        dataToSend = { success: false, data: [] };
+        dataToSend = { success: false, pairs: [] };
       } else {
-        dataToSend = { success: true, data };
+        dataToSend = { success: true, pairs: data };
       }
-      response.ok(data, res);
+      response.ok(dataToSend, res);
     } else response.not_found(res);
   } else response.not_found(res);
 };
